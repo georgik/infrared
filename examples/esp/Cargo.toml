@@ -1,0 +1,23 @@
+[package]
+name = "esp-examples"
+version = "0.8.0"
+authors = ["Juraj Michalek <juraj.michalek@espressif.com>"]
+publish = false
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+esp-hal-common = { version = "0.2.0",  features = ["esp32c3", "smartled"] }
+esp32c3-hal = { version = "0.2.0" }
+esp-alloc = { version = "0.1.0", features = ["oom-handler"] }
+esp-backtrace = { version = "0.2.0", features = ["esp32c3", "panic-handler", "print-uart"] }
+riscv-rt = { version = "0.9", optional = true }
+embedded-hal = "0.2"
+esp-println = { version = "0.3.1", features = [ "esp32c3" ] }
+infrared = { path = "../..", features = ["defmt", "embedded-hal"] }
+smart-leds = "0.3.0"
+
+
+[features]
+default = ["rt"]
+rt = ["riscv-rt"]
