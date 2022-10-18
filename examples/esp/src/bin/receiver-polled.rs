@@ -4,7 +4,7 @@
 extern crate alloc;
 
 use esp32c3_hal::{
-    clock::ClockControl,
+    clock::{ ClockControl, CpuClock },
     pac::{self, Peripherals},
     prelude::*,
     timer::{TimerGroup},
@@ -59,7 +59,9 @@ static mut RECEIVER: Option<IrReceiver> = None;
 fn main() -> ! {
     let peripherals = Peripherals::take().unwrap();
     let mut system = peripherals.SYSTEM.split();
-    let clocks = ClockControl::boot_defaults(system.clock_control).freeze();
+    let clocks = ClockControl::configure(system.clock_control, CpuClock::Clock80MHz).freeze();
+    // Using boot default clock seems to produce random results
+    // let clocks = ClockControl::boot_defaults(system.clock_control).freeze();
 
     // Disable the RTC and TIMG watchdog timers
     let mut rtc = Rtc::new(peripherals.RTC_CNTL);
